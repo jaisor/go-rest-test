@@ -22,8 +22,10 @@ func main() {
 
 	m.HandleFunc("/ping", env.healthCheck).Methods("GET")
 	m.HandleFunc("/dump", env.dumpRequest)
-	log.Fatal(http.ListenAndServe(getEnv("IP_ADDRESS", ":10000"), m))
 
+	port := getEnv("PORT", ":10000")
+	log.Fatal(http.ListenAndServe(port, m))
+	logger.Println("Listening on port: %i", port)
 }
 
 func commonMiddleware(next http.Handler) http.Handler {
