@@ -10,5 +10,5 @@ RUN go install -v ./...
 
 FROM alpine:latest
 COPY --from=0 /go/bin/app .
-ENV PORT 8080
-CMD ["./go-rest-test"]
+ENV IP_ADDR :8090
+CMD ["./app"]
