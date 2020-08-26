@@ -22,6 +22,7 @@ func main() {
 
 	m.HandleFunc("/ping", env.healthCheck).Methods("GET")
 	m.HandleFunc("/dump", env.dumpRequest)
+	m.HandleFunc("/", env.index)
 
 	port := getEnv("IP_ADDR", ":10000")
 	logger.Printf("Attempting to listen on port: %s", port)
@@ -40,10 +41,19 @@ type Env struct {
 	log *log.Logger
 }
 
+func (env *Env) index(w http.ResponseWriter, r *http.Request) {
+
+	health := map[string]interface{}{
+		"go": "gone",
+	}
+
+	json.NewEncoder(w).Encode(health)
+}
+
 func (env *Env) healthCheck(w http.ResponseWriter, r *http.Request) {
 
 	health := map[string]interface{}{
-		"ok":  true,
+		"go":  "true",
 		"now": time.Now(),
 	}
 
